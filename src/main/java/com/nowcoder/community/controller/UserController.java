@@ -54,7 +54,6 @@ public class UserController {
     public String getSettingPage() {
         return "/site/setting";
     }
-
     // 上传图片
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     public String uploadHeader(MultipartFile headerImage, Model model) {
@@ -112,6 +111,39 @@ public class UserController {
         } catch (IOException e) {
             logger.error("读取头像失败：" + e.getMessage());
         }
-
     }
+
+    // 修改密码
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public String updatePassword(String oldPassword, String newPassword, String confirmPassword, Model model) {
+        User user = hostHolder.getUser();
+
+        // 校验旧密码是否正确
+        if(!userService.checkPassword(user.getId(), oldPassword)) {
+            model.addAttribute("oldPasswordMsg", "旧密码不正确！");
+            return "/site/setting";
+        }
+
+        // 校验新密码和确认密码是否一致
+        if(StringUtils.isBlank(newPassword) || StringUtils.isBlank(confirmPassword)) {
+            model.addAttribute("newPasswordMsg", "新密码和确认密码不能为空！");
+            return "/site/setting";
+        }
+
+        if(newPassword.length() < 2) {
+            model.addAttribute("newPasswordMsg", "密码长度不能少于8位！");
+            return "/site/setting";
+        }
+
+        if(!newPassword.equals(confirmPassword)) {
+            model.addAttribute("confirmPassword", "两次输入的密码不一致！");
+            return "/site/setting";
+        }
+
+        // 更新密码
+        userService.updatePassword(user.getId(), newPassword);
+        model.addAttribute("msg", "密码修改成功！");
+        return "redirect:/login";
+    }
+
 }
