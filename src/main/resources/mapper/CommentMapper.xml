@@ -29,10 +29,10 @@
         and entity_id = #{entityId}
     </select>
 
-<!--    <insert id="insertDiscussPost" parameterType="DiscussPost" keyProperty="id">-->
-<!--        insert into discuss_post (<include refid="insertFiled"></include>)-->
-<!--        value(#{userId}, #{title}, #{content}, #{type}, #{status}, #{createTime}, #{commentCount}, #{score})-->
-<!--    </insert>-->
+    <insert id="insertComment" parameterType="Comment" keyProperty="id">
+        insert into comment (<include refid="insertFiled"></include>)
+        value(#{userId}, #{entityType}, #{entityId}, #{targetId}, #{content}, #{status}, #{createTime})
+    </insert>
 
 <!--    <select id="selectDiscussPostById" resultType="DiscussPost">-->
 <!--        select <include refid="selectField"></include>-->

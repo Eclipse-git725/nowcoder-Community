@@ -132,4 +132,17 @@ public class MapperTests {
         int rows = commentMapper.selectCommentsRows(2, 12);
         System.out.println(rows);
     }
+
+    @Test
+    public void testInsertComment() {
+        Comment comment = new Comment();
+        comment.setUserId(101);
+        comment.setEntityType(2);
+        comment.setEntityId(12);
+        comment.setTargetId(0);
+        comment.setContent("test");
+        comment.setStatus(0);
+        comment.setCreateTime(new Date());
+        commentMapper.insertComment(comment);
+    }
 }
