@@ -6,6 +6,9 @@
     <sql id="selectField">
         id, from_id, to_id, conversation_id, content, status, create_time
     </sql>
+    <sql id="insertField">
+        from_id, to_id, conversation_id, content, status, create_time
+    </sql>
 
     <select id="selectConversations" resultType="Message">
         select <include refid="selectField"></include>
@@ -54,15 +57,28 @@
     </select>
 
     <select id="selectLetterUnreadCount" resultType="int">
-        select count(id)
-        from message
-        where status = 0
-        and from_id != 1
-        and to_id = #{userId}
-        <if test="conversationId != null">
-            and conversation_id = #{conversationId}
-        </if>
-    </select>
+    select count(id)
+    from message
+    where status = 0
+    and from_id != 1
+    and to_id = #{userId}
+    <if test="conversationId != null">
+        and conversation_id = #{conversationId}
+    </if>
+</select>
+
+    <insert id="insertMessage">
+        insert into message (<include refid="insertField"></include>)
+        value (#{fromId}, #{toId}, #{conversationId}, #{content}, #{status}, #{createTime})
+    </insert>
+
+    <update id="updateStatus">
+        update message set status = #{status}
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
 
 
 </mapper>

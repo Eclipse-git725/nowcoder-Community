@@ -163,5 +163,17 @@ public class MapperTests {
 
         count = messageMapper.selectLetterUnreadCount(131, "111_131");
         System.out.println(count);
+
+        Message message = new Message();
+        message.setFromId(111);
+        message.setToId(112);
+        if(message.getFromId() < message.getToId()) {
+            message.setConversationId(message.getFromId() + "_" + message.getToId());
+        } else {
+            message.setConversationId(message.getToId() + "_" + message.getFromId());
+        }
+        message.setContent("test");
+        message.setCreateTime(new Date());
+        messageMapper.insertMessage(message);
     }
 }
