@@ -37,6 +37,7 @@ public class MessageController {
     // 私信列表
     @RequestMapping(value = "/letter/list", method = RequestMethod.GET)
     public String getLetterList(Model model, Page page) {
+//        Integer.valueOf("abc");
         User user = hostHolder.getUser();
         // 分页信息设置
         page.setLimit(5);
@@ -126,6 +127,7 @@ public class MessageController {
     @RequestMapping(path = "/letter/send", method = RequestMethod.POST)
     @ResponseBody
     public String sendLetter(String toName, String content) {
+//        Integer.valueOf("abc");
         // System.out.println("Received toName: " + toName + ", content: " + content);  // 打印日志，确保数据接收正确
         User target = userService.findUserByName(toName);
         if(target == null) {
