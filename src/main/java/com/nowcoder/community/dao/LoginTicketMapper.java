@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.*;
  * 描述: 登录凭证的Dao层
  */
 @Mapper
+// 声明组件不推荐使用
+@Deprecated
 public interface LoginTicketMapper {
 
     @Insert({
