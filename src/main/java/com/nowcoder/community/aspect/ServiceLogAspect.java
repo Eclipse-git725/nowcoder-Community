@@ -33,7 +33,11 @@ public class ServiceLogAspect {
     @Before("pointcut()")
     public void before(JoinPoint joinPoint) {
         // 用户[1.2.3.4],在[xxx],访问了[com.nowcoder.community.service.xxx()].
+        // 这个方法只有在 “当前线程” 有 HTTP 请求上下文（即 Web 请求）时 才会返回 ServletRequestAttributes，否则它会返回 null。
          ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+         if(attributes == null) {
+             return;
+         }
         HttpServletRequest request = attributes.getRequest();
         String ip = request.getRemoteHost();
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis());

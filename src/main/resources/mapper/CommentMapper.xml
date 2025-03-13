@@ -34,10 +34,10 @@
         value(#{userId}, #{entityType}, #{entityId}, #{targetId}, #{content}, #{status}, #{createTime})
     </insert>
 
-<!--    <select id="selectDiscussPostById" resultType="DiscussPost">-->
-<!--        select <include refid="selectField"></include>-->
-<!--        from discuss_post-->
-<!--        where id = #{id}-->
-<!--    </select>-->
+    <select id="selectCommentById" resultType="Comment">
+        select <include refid="selectField"></include>
+        from comment
+        where id = #{id}
+    </select>
 
 </mapper>
